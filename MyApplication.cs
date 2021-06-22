@@ -58,58 +58,78 @@ namespace Template
 		public void Tick()
 		{
 			Inp();
+
 			screen.Clear( 0 );
 			screen.Print( "hello world", 2, 2, 0xffff00 );a += 0.2f;
-			Tpotnode.TransformMatrix = Matrix4.CreateRotationX(a);
+			Tpotnode.TransformMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
 		}
 		void Inp()
         {
 			if(Keyboard[Key.Up])
             {
+				Tcamera = Matrix4.CreateTranslation(0, 0, 0.5f) * Tcamera;
                 System.Console.WriteLine("inp = UP");
 				
             }
-        }
+			if (Keyboard[Key.Down])
+			{
+				Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
+				System.Console.WriteLine("inp = UP");
+
+			}
+			if (Keyboard[Key.Right])
+			{
+				Tcamera = Matrix4.CreateTranslation(-0.5f,0,  0) * Tcamera;
+				System.Console.WriteLine("inp = UP");
+
+			}
+			if (Keyboard[Key.Left])
+			{
+				Tcamera = Matrix4.CreateTranslation(0.5f, 0, 0) * Tcamera;
+				System.Console.WriteLine("inp = UP");
+
+			}
+		}
 		// tick for OpenGL rendering code
 		public void RenderGL()
 		{
 			sceneGraph.render();
-			//// measure frame duration
-			//float frameDuration = timer.ElapsedMilliseconds;
-			//timer.Reset();
-			//timer.Start();
+    //        // measure frame duration
+    //        float frameDuration = timer.ElapsedMilliseconds;
+    //        timer.Reset();
+    //        timer.Start();
 
-			//// prepare matrix for vertex shader
-			//
-			
-			//Matrix4 Tpot = Matrix4.CreateScale( 0.5f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
-			//Matrix4 Tfloor = Matrix4.CreateScale( 4.0f ) * Matrix4.CreateFromAxisAngle( new Vector3( 0, 1, 0 ), a );
-			
-			//// update rotation
-			//
+    //        // prepare matrix for vertex shader
 
-			//if( a > 2 * PI ) a -= 2 * PI;
 
-			//if( useRenderTarget )
-			//{
-			//	// enable render target
-			//	target.Bind();
+    //        Matrix4 Tpot = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+    //        Matrix4 Tfloor = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
 
-			//	// render scene to render target
-			//mesh.Render( shader, Tpot * Tcamera * Tview, wood );
-			//	floor.Render( shader, Tfloor * Tcamera * Tview, wood );
+    //        // update rotation
 
-			//	// render quad
-			//	target.Unbind();
-			//	quad.Render( postproc, target.GetTextureID() );
-			//}
-			//else
-			//{
-			//	// render scene directly to the screen
-			//	mesh.Render( shader, Tpot * Tcamera * Tview, wood );
-			//	floor.Render( shader, Tfloor * Tcamera * Tview, wood );
-			//}
-		}
+
+    //        if (a > 2 * PI) a -= 2 * PI;
+
+    //        if (useRenderTarget)
+    //        {
+    //            // enable render target
+    //            target.Bind();
+
+    //            // render scene to render target
+    //            Tpotmesh.Render(shader, Tpot * Tcamera * Tview, wood);
+    //            floormesh.Render(shader, Tfloor * Tcamera * Tview, wood);
+
+    //            // render quad
+    //            target.Unbind();
+    //            quad.Render(postproc, target.GetTextureID());
+    //        }
+    //        else
+    //        {
+				//// render scene directly to the screen
+				//Tpotmesh.Render(shader, Tpot * Tcamera * Tview, wood);
+				//floormesh.Render(shader, Tfloor * Tcamera * Tview, wood);
+    //        }
+        }
 
 		void initNodeSystem()
 		{

@@ -25,7 +25,7 @@ namespace Template
             {
 				foreach(Node child in Root.Children)
                 {
-					child.NodeMesh.Render(app.shader, child.TransformMatrix, child.NodeTexture);
+					child.NodeMesh.Render(app.shader, child.TransformMatrix * app.Tcamera * app.Tview, child.NodeTexture);
                 }
             }
 		}
