@@ -60,34 +60,56 @@ namespace Template
 			Inp();
 
 			screen.Clear( 0 );
-			screen.Print( "hello world", 2, 2, 0xffff00 );a += 0.2f;
-			Tpotnode.TransformMatrix = Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+			screen.Print( "hello world", 2, 2, 0xffff00 );a += 0.005f;
+			Tpotnode.TransformMatrix = Matrix4.CreateRotationX( a);
 		}
 		void Inp()
         {
-			if(Keyboard[Key.Up])
+			if (Keyboard[Key.Up])
             {
-				Tcamera = Matrix4.CreateTranslation(0, 0, 0.5f) * Tcamera;
-                System.Console.WriteLine("inp = UP");
-				
+                //Console.WriteLine("UP");
+                Tcamera = Matrix4.CreateTranslation(0, 0, 0.5f) * Tcamera;
+                
             }
-			if (Keyboard[Key.Down])
+            else if (Keyboard[Key.Down])
+            {
+                Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
+            }
+            else if (Keyboard[Key.Left])
+            {
+                Tcamera = Matrix4.CreateTranslation(0.5f, 0, 0) * Tcamera;
+            }
+            else if (Keyboard[Key.Right])
+            {
+                Tcamera = Matrix4.CreateTranslation(-0.5f, 0, 0) * Tcamera;
+            }
+            else if (Keyboard[Key.Space])
+            {
+                Tcamera = Matrix4.CreateTranslation(0, 0.5f, 0) * Tcamera;
+            }
+            else if (Keyboard[Key.LShift] || Keyboard[Key.RShift])
+            {
+                Tcamera = Matrix4.CreateTranslation(0, -0.5f, 0) * Tcamera;
+            }
+            else if (Keyboard[Key.W])
+            {
+                Tcamera = Matrix4.CreateRotationX(0.01f) * Tcamera;
+            }
+            else if (Keyboard[Key.S])
+            {
+                Tcamera = Matrix4.CreateRotationX(-0.01f) * Tcamera;
+            }
+            else if (Keyboard[Key.A])
+            {
+                Tcamera = Matrix4.CreateRotationY(0.01f) * Tcamera;
+            }
+            else if (Keyboard[Key.D])
+            {
+                Tcamera = Matrix4.CreateRotationY(-0.01f) * Tcamera;
+            }
+			else if (Keyboard[Key.H])
 			{
-				Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
-				System.Console.WriteLine("inp = UP");
-
-			}
-			if (Keyboard[Key.Right])
-			{
-				Tcamera = Matrix4.CreateTranslation(-0.5f,0,  0) * Tcamera;
-				System.Console.WriteLine("inp = UP");
-
-			}
-			if (Keyboard[Key.Left])
-			{
-				Tcamera = Matrix4.CreateTranslation(0.5f, 0, 0) * Tcamera;
-				System.Console.WriteLine("inp = UP");
-
+				sceneGraph.unpackChildren(sceneGraph.Root, true);
 			}
 		}
 		// tick for OpenGL rendering code
@@ -133,16 +155,20 @@ namespace Template
 
 		void initNodeSystem()
 		{
-            System.Console.WriteLine("okido");
+			System.Console.WriteLine("okido");
+
+			Matrix4 Tpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
 			
-			Matrix4 Tpot = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
-			Tpotmesh = new Mesh( "../../assets/teapot.obj" );
-			floormesh = new Mesh( "../../assets/floor.obj" );
+			Matrix4 floormatrix = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+			Tpotmesh = new Mesh("../../assets/teapot.obj");
+			floormesh = new Mesh("../../assets/floor.obj");
 			sceneGraph = new SceneGraph(this);
-			Cameranode = new Node("Camera", null, Tcamera,null,null, sceneGraph);
-			Tpotnode = new Node("Tpot", Cameranode,Tpot,Tpotmesh ,wood, sceneGraph);
+			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
+			Tpotnode = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			Floornode = new Node("Floor", Tpotnode, floormatrix, floormesh, wood, sceneGraph);
 			
+
 		}
 	}
-
 }
+
