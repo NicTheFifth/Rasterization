@@ -24,9 +24,12 @@ namespace Template
 		bool useRenderTarget = true;
 		KeyboardState keyboardstate;
 		// initialize
-		public Node Tpotnode;
+		public Node Tpotnode1;
+		public Node Floornode1;
+
+		public Node Tpotnode2;
+		public Node Floornode2;
 		public Node Cameranode;
-		public Node Floornode;
 		public SceneGraph sceneGraph;
 
 		public Matrix4 Tcamera;
@@ -60,8 +63,10 @@ namespace Template
 			Inp();
 
 			screen.Clear( 0 );
-			screen.Print( "hello world", 2, 2, 0xffff00 );a += 0.005f;
-			Tpotnode.TransformMatrix = Matrix4.CreateRotationX( a);
+			screen.Print( "hello world", 2, 2, 0xffff00 );
+			a += 0.005f;
+			Tpotnode1.TransformMatrix = Matrix4.CreateRotationY( a);
+			Tpotnode2.TransformMatrix = Matrix4.CreateRotationZ(a);
 		}
 		void Inp()
         {
@@ -164,10 +169,17 @@ namespace Template
 			floormesh = new Mesh("../../assets/floor.obj");
 			sceneGraph = new SceneGraph(this);
 			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
-			Tpotnode = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-			Floornode = new Node("Floor", Tpotnode, floormatrix, floormesh, wood, sceneGraph);
 			
+			Floornode2 = new Node("Floor", Cameranode, floormatrix, floormesh, wood, sceneGraph);
+			Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
+			
+			//Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			//Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
 
+			//Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
+			//Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
 		}
 	}
 }
