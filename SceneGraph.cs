@@ -30,11 +30,12 @@ namespace Template
             if(node.Parent!= null)
             {
                 T = node.TransformMatrix * node.Parent.TransformMatrix;
+               
             }
             else
             {
                 //root so :
-                T = app.Tcamera*app.Tview;
+                T = app.Tcamera.Inverted() *app.Tview;
                 node.TransformMatrix = T;
             }
             //if(debug==true)
@@ -44,7 +45,7 @@ namespace Template
                 Console.WriteLine(node.ID);
             }
 
-            if (node != null && node.Children != null)
+            if (node != null )
             {
                 foreach (Node child in node.Children)
                 {

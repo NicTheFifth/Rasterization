@@ -61,32 +61,35 @@ namespace Template
 		public void Tick()
 		{
 			Inp();
-
 			screen.Clear( 0 );
-			screen.Print( "hello world", 2, 2, 0xffff00 );
-			a += 0.005f;
-			Tpotnode1.TransformMatrix = Matrix4.CreateRotationY( a);
-			Tpotnode2.TransformMatrix = Matrix4.CreateRotationZ(a);
+			float frameDuration = timer.ElapsedMilliseconds;
+			timer.Reset();
+			timer.Start();
+			
+			a = 0.001f  ;
+			
+			//Tpotnode1.TransformMatrix = Matrix4.CreateRotationY( a);
+			Tpotnode2.TransformMatrix *= Matrix4.CreateRotationY(a);
 		}
 		void Inp()
         {
 			if (Keyboard[Key.Up])
             {
                 //Console.WriteLine("UP");
-                Tcamera = Matrix4.CreateTranslation(0, 0, 0.5f) * Tcamera;
+                Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
                 
             }
             else if (Keyboard[Key.Down])
             {
-                Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
+                Tcamera = Matrix4.CreateTranslation(0, 0, 0.5f) * Tcamera;
             }
             else if (Keyboard[Key.Left])
             {
-                Tcamera = Matrix4.CreateTranslation(0.5f, 0, 0) * Tcamera;
+                Tcamera = Matrix4.CreateTranslation(-0.5f, 0, 0) * Tcamera;
             }
             else if (Keyboard[Key.Right])
             {
-                Tcamera = Matrix4.CreateTranslation(-0.5f, 0, 0) * Tcamera;
+                Tcamera = Matrix4.CreateTranslation(0.5f, 0, 0) * Tcamera;
             }
             else if (Keyboard[Key.Space])
             {
@@ -160,27 +163,32 @@ namespace Template
 
 		void initNodeSystem()
 		{
-			System.Console.WriteLine("okido");
 
-			Matrix4 Tpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
-			
-			Matrix4 floormatrix = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), a);
+
+
+			Matrix4 Tpotmatrix2 = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+
+			Matrix4 floormatrix2 = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			Tpotmesh = new Mesh("../../assets/teapot.obj");
 			floormesh = new Mesh("../../assets/floor.obj");
 			sceneGraph = new SceneGraph(this);
 			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
 			
-			Floornode2 = new Node("Floor", Cameranode, floormatrix, floormesh, wood, sceneGraph);
-			Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-			Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-			Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
-			
-			//Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-			//Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
+			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, wood, sceneGraph);
+			Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix2, Tpotmesh, wood, sceneGraph);
 
-			//Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
-			//Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-		}
+			Matrix4 Tpotmatrix1 = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(2,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			
+			Matrix4 floormatrix1 = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+            Floornode1 = new Node("Floor", Cameranode, floormatrix1, floormesh, wood, sceneGraph);
+            Tpotnode1 = new Node("Tpot", Tpotnode2, Tpotmatrix1, Tpotmesh, wood, sceneGraph);
+
+            //Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+            //Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
+
+            //Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
+            //Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+        }
 	}
 }
 
