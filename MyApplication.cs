@@ -38,9 +38,10 @@ namespace Template
 		public void Init()
 		{
 			float angle = PI / 3;
-			Tcamera = Matrix4.CreateTranslation(new Vector3(-20, 14.5f, 20)) * Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle);
-			Tview = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+			Tcamera =  Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle)*Matrix4.CreateTranslation(new Vector3(-20, 312, 262));
 
+			Tview = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
+            System.Console.WriteLine(Tcamera);
 			// initialize stopwatch
 			timer = new Stopwatch();
 			timer.Reset();
@@ -63,6 +64,7 @@ namespace Template
 		}
 		void Inp()
         {
+            
 			if (Keyboard[Key.Up])
             {
                 Tcamera = Matrix4.CreateTranslation(0, 0, -0.5f) * Tcamera;
@@ -106,7 +108,9 @@ namespace Template
             }
 			if (Keyboard[Key.H])
 			{
-				sceneGraph.unpackChildren(sceneGraph.Root, Tcamera.Inverted() * Tview, true);
+				//sceneGraph.unpackChildren(sceneGraph.Root, Tcamera.Inverted() * Tview, true);
+				System.Console.WriteLine("tcamera");
+				System.Console.WriteLine(Tcamera);
 			}
 		}
 
@@ -152,31 +156,28 @@ namespace Template
         }
 
 		void initNodeSystem()
-		{
-
-
-
-			
+		{ 
 			Tpotmesh = new Mesh("../../assets/teapot.obj");
 			floormesh = new Mesh("../../assets/floor.obj");
 			
 			sceneGraph = new SceneGraph(this);
 
-			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
-			
+			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null);
+			sceneGraph.Root = Cameranode;
 			
 			Matrix4 floormatrix = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone, sceneGraph);
+			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone);
 
 
 			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			potbig = new Node("coftpotcoffloor", Floornode, bigtpotmatrix, Tpotmesh, wood, sceneGraph);
+			potbig = new Node("Big Teapot", Floornode, bigtpotmatrix, Tpotmesh, wood);
 
 			Matrix4 mediumtpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			potmedium = new Node("coftpotcoffloor", potbig, mediumtpotmatrix, Tpotmesh, wood, sceneGraph);
+			potmedium = new Node("Medium Teapot", potbig, mediumtpotmatrix, Tpotmesh, wood);
 			
 			Matrix4 smalltpotmatrix = Matrix4.CreateScale(0.5f) *Matrix4.CreateTranslation(10f,0,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			potsmall = new Node("", potmedium, smalltpotmatrix, Tpotmesh, wood, sceneGraph);
+			potsmall = new Node("Small Teapot", potmedium, smalltpotmatrix, Tpotmesh, wood);
+
 			isneg = false;
 			showTree(sceneGraph.Root, "");
         }
