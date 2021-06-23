@@ -33,9 +33,7 @@ namespace Template
             else
                 T = transformation;
             
-            
-            //if(debug==true)
-            //	Console.WriteLine(node.ID);
+          
             if( debug == true)
             {
                 Console.WriteLine(node.ID);
@@ -63,15 +61,7 @@ namespace Template
                 }
                 
             
-            //if (node.NodeMesh != null && node.NodeTexture != null)
-            //{
-            //    if (debug == true)
-            //    {
-            //        Console.WriteLine(node.ID);
-            //        Console.WriteLine(node.TransformMatrix);
-            //    }
-            //node.NodeMesh.Render(app.shader, node.TransformMatrix * app.Tcamera * app.Tview, node.NodeTexture);
-            //}
+
         }
     }
 }
