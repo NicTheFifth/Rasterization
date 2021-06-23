@@ -205,6 +205,7 @@ namespace Template
 			
 			sceneGraph = new SceneGraph(this);
 			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null);
+			sceneGraph.Root = Cameranode;
 			
 			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, stone);
 
