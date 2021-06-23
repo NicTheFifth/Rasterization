@@ -27,11 +27,9 @@ namespace Template
         /* misschien niet nodig?  behalve als verschillende groepen van objecten anders van elkaar bewegen, anders gewoon een matrix doorgeven van de camera?*/
         // transformation list of children
         //Dictionary<string, Matrix4> transfromationDict;
-        SceneGraph sceneGraph;
 
-        public Node(string id, Node parent, Matrix4 transformMatrix, Mesh nodeMesh, Texture nodeTexture, SceneGraph sceneGraph)
+        public Node(string id, Node parent, Matrix4 transformMatrix, Mesh nodeMesh, Texture nodeTexture)
         {
-            this.sceneGraph = sceneGraph;
             this.id = id;
             this.nodeMesh = nodeMesh;
             this.nodeTexture = nodeTexture;
@@ -42,21 +40,11 @@ namespace Template
                 //Parent.transfromationDict.Add(ID, transformMatrix);
                 Parent.Children.Add(this);
             }
-            else
-            {
-                if (sceneGraph.Root == null)
-                    sceneGraph.Root = this;
-                else
-                    Console.WriteLine(sceneGraph.Root);
-            }
             //this.transfromationDict = new Dictionary<string, Matrix4>();
             this.children = new List<Node>();
             this.transformMatrix = transformMatrix;
-
-
-
-
         }
+
         public List<Node> Children
         {
             get { return children; }

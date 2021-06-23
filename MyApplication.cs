@@ -202,9 +202,9 @@ namespace Template
 			floormesh = new Mesh("../../assets/floor.obj");
 			
 			sceneGraph = new SceneGraph(this);
-			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
+			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null);
 			
-			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, stone, sceneGraph);
+			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, stone);
 
 			Matrix4 Tpotmatrix1 = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,-2,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			
@@ -212,9 +212,9 @@ namespace Template
             //Floornode1 = new Node("Floor", Cameranode, floormatrix1, floormesh, wood, sceneGraph);
 
 			Matrix4 Tpotmatrix3 = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-            Tpotnode1 = new Node("coftpotcoffloor", Floornode2, Tpotmatrix1, Tpotmesh, wood, sceneGraph);
-			Tpotnode3 = new Node("coftpotcoffloor", Tpotnode1, Tpotmatrix3, Tpotmesh, wood, sceneGraph);
-			Tpotnode2 = new Node("", Tpotnode3, Tpotmatrix2, Tpotmesh, wood, sceneGraph);
+            Tpotnode1 = new Node("coftpotcoffloor", Floornode2, Tpotmatrix1, Tpotmesh, wood);
+			Tpotnode3 = new Node("coftpotcoffloor", Tpotnode1, Tpotmatrix3, Tpotmesh, wood);
+			Tpotnode2 = new Node("", Tpotnode3, Tpotmatrix2, Tpotmesh, wood);
 			isneg = false;
 			//Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
 			//Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);

@@ -10,9 +10,8 @@ namespace Template
         public SceneGraph(MyApplication app)
         {
             this.app = app;
-
-
         }
+
         public Node Root
         {
             get { return root; }
@@ -26,7 +25,6 @@ namespace Template
         }
         public void unpackChildren(Node node, Matrix4 transformation,bool debug = false)
         {
-            bool isroot = false;
             Matrix4 T = node.TransformMatrix * transformation;
             if (node.Parent != null)
                 node.NodeMesh.Render(app.shader, T, node.NodeTexture);
