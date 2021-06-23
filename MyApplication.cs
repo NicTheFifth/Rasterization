@@ -24,7 +24,7 @@ namespace Template
 		bool useRenderTarget = true;
 		KeyboardState keyboardstate;
 		// initialize
-		private Node Cameranode, Floornode,potbig, potmedium, potsmall;
+		private Node Cameranode, Floornode,potbig, potmedium, potsmall, light;
 		
 
 		
@@ -166,14 +166,16 @@ namespace Template
 			sceneGraph.Root = Cameranode;
 			
 			Matrix4 floormatrix = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 lightmatrix = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			light = new Light("Light", Cameranode, lightmatrix, new Vector3(1, 1, 1));
 			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone);
-
 
 			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potbig = new Node("Big Teapot", Floornode, bigtpotmatrix, Tpotmesh, wood);
 
 			Matrix4 mediumtpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potmedium = new Node("Medium Teapot", potbig, mediumtpotmatrix, Tpotmesh, wood);
+			
 			
 			Matrix4 smalltpotmatrix = Matrix4.CreateScale(0.5f) *Matrix4.CreateTranslation(10f,0,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potsmall = new Node("Small Teapot", potmedium, smalltpotmatrix, Tpotmesh, wood);
@@ -187,7 +189,7 @@ namespace Template
 			System.Console.WriteLine(pref + root.ID);
 			foreach(Node child in root.Children)
             {
-				showTree(child, pref += '\t');
+				showTree(child, pref + '\t');
             }
         }
 	}

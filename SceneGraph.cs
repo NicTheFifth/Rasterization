@@ -26,7 +26,7 @@ namespace Template
         public void unpackChildren(Node node, Matrix4 transformation,bool debug = false)
         {
             Matrix4 T = node.TransformMatrix * transformation;
-            if (node.Parent != null)
+            if (node.Parent != null && node.GetType() != typeof(Light))
                 node.NodeMesh.Render(app.shader, T, node.NodeTexture);
             else
                 T = transformation;

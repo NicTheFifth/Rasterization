@@ -11,23 +11,20 @@ namespace Template
     public class Node
     {
         //one parent max per node
-        Node parent;
+        internal Node parent;
 
         //multiple children possible
-        List<Node> children;
+        internal List<Node> children;
 
         //ID of node
-        string id;
+        internal string id;
 
-        Mesh nodeMesh;
-        Texture nodeTexture;
+        internal Mesh nodeMesh;
+        internal Texture nodeTexture;
 
-        Matrix4 transformMatrix;
-
-
-       
-        
-
+        internal Matrix4 transformMatrix;
+        public Node()
+        {}
         public Node(string id, Node parent, Matrix4 transformMatrix, Mesh nodeMesh, Texture nodeTexture)
         {
             this.id = id;
