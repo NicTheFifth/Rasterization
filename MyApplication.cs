@@ -18,13 +18,13 @@ namespace Template
 		Stopwatch timer;                        // timer for measuring frame duration
 		public Shader shader;                          // shader to use for rendering
 		Shader postproc;                        // shader to use for post processing
-		Texture wood;                           // texture to use for rendering
+		Texture wood, stone;                           // texture to use for rendering
 		RenderTarget target;                    // intermediate render target
 		ScreenQuad quad;                        // screen filling quad for post processing
 		bool useRenderTarget = true;
 		KeyboardState keyboardstate;
 		// initialize
-		public Node Tpotnode1;
+		public Node Tpotnode1, Tpotnode3;
 		public Node Floornode1;
 
 		public Node Tpotnode2;
@@ -34,10 +34,11 @@ namespace Template
 
 		public Matrix4 Tcamera;
 		public Matrix4 Tview;
+		public bool isneg;
 		public void Init()
 		{
-			float angle90degrees = PI / 2;
-			Tcamera = Matrix4.CreateTranslation(new Vector3(0, -14.5f, 0)) * Matrix4.CreateFromAxisAngle(new Vector3(1, 0, 0), angle90degrees);
+			float angle90degrees = PI / 3;
+			Tcamera = Matrix4.CreateTranslation(new Vector3(20, 14.5f, 20)) * Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle90degrees);
 			Tview = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
 
 			// load teapot
@@ -51,6 +52,7 @@ namespace Template
 			postproc = new Shader( "../../shaders/vs_post.glsl", "../../shaders/fs_post.glsl" );
 			// load a texture
 			wood = new Texture( "../../assets/wood.jpg" );
+			stone = new Texture("../../assets/stone.png");
 			// create the render target
 			target = new RenderTarget( screen.width, screen.height );
 			quad = new ScreenQuad();
@@ -68,8 +70,35 @@ namespace Template
 			
 			a = 0.001f  ;
 			
-			//Tpotnode1.TransformMatrix = Matrix4.CreateRotationY( a);
+			Tpotnode1.TransformMatrix *= Matrix4.CreateRotationY( -20*a);
 			Tpotnode2.TransformMatrix *= Matrix4.CreateRotationY(a);
+			Tpotnode3.TransformMatrix *= Matrix4.CreateRotationY(a * 10);
+			if (Tpotnode1.TransformMatrix.ExtractTranslation().X> 10)
+			{
+                //System.Console.WriteLine(Tpotnode3.TransformMatrix.Column3.X);
+				isneg = true;
+			}
+			else if (Tpotnode1.TransformMatrix.ExtractTranslation().X < 0)
+			{
+                //System.Console.WriteLine(Tpotnode3.TransformMatrix.Column3.X);
+				//Tpotnode3.TransformMatrix *= Matrix4.CreateTranslation(a, 0, 0);
+				isneg = false;
+			}
+			if (isneg)
+			{
+				float b = -20 * ((float)System.Math.Sin(a * System.Math.PI));
+				
+				Tpotnode1.TransformMatrix *= Matrix4.CreateTranslation( b,0, b);
+				Tpotnode3.TransformMatrix *= Matrix4.CreateTranslation(-b, 0, -b);
+			}
+			else
+			{
+				float b = 20 * ((float)System.Math.Sin(a * System.Math.PI));
+				//System.Console.WriteLine(Tpotnode3.TransformMatrix);
+				Tpotnode1.TransformMatrix *= Matrix4.CreateTranslation(b ,0,b);
+				Tpotnode3.TransformMatrix *= Matrix4.CreateTranslation(-b, 0, -b);
+			}
+			
 		}
 		void Inp()
         {
@@ -117,7 +146,7 @@ namespace Template
             }
 			else if (Keyboard[Key.H])
 			{
-				sceneGraph.unpackChildren(sceneGraph.Root, true);
+				sceneGraph.unpackChildren(sceneGraph.Root, Tcamera.Inverted() * Tview, true);
 			}
 		}
 		// tick for OpenGL rendering code
@@ -166,29 +195,33 @@ namespace Template
 
 
 
-			Matrix4 Tpotmatrix2 = Matrix4.CreateScale(0.5f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-
-			Matrix4 floormatrix2 = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 Tpotmatrix2 = Matrix4.CreateScale(0.5f) *Matrix4.CreateTranslation(10f,0,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			
+			Matrix4 floormatrix2 = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			Tpotmesh = new Mesh("../../assets/teapot.obj");
 			floormesh = new Mesh("../../assets/floor.obj");
+			
 			sceneGraph = new SceneGraph(this);
 			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null, sceneGraph);
 			
-			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, wood, sceneGraph);
-			Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix2, Tpotmesh, wood, sceneGraph);
+			Floornode2 = new Node("Floor", Cameranode, floormatrix2, floormesh, stone, sceneGraph);
 
-			Matrix4 Tpotmatrix1 = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(2,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 Tpotmatrix1 = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,-2,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			
-			Matrix4 floormatrix1 = Matrix4.CreateScale(4.0f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-            Floornode1 = new Node("Floor", Cameranode, floormatrix1, floormesh, wood, sceneGraph);
-            Tpotnode1 = new Node("Tpot", Tpotnode2, Tpotmatrix1, Tpotmesh, wood, sceneGraph);
+			Matrix4 floormatrix1 = Matrix4.CreateScale(200f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+            //Floornode1 = new Node("Floor", Cameranode, floormatrix1, floormesh, wood, sceneGraph);
 
-            //Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-            //Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
+			Matrix4 Tpotmatrix3 = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+            Tpotnode1 = new Node("coftpotcoffloor", Floornode2, Tpotmatrix1, Tpotmesh, wood, sceneGraph);
+			Tpotnode3 = new Node("coftpotcoffloor", Tpotnode1, Tpotmatrix3, Tpotmesh, wood, sceneGraph);
+			Tpotnode2 = new Node("", Tpotnode3, Tpotmatrix2, Tpotmesh, wood, sceneGraph);
+			isneg = false;
+			//Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			//Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
 
-            //Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
-            //Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-        }
+			//Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
+			//Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+		}
 	}
 }
 
