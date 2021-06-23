@@ -183,11 +183,21 @@ namespace Template
             Floornode1 = new Node("Floor", Cameranode, floormatrix1, floormesh, wood, sceneGraph);
             Tpotnode1 = new Node("Tpot", Tpotnode2, Tpotmatrix1, Tpotmesh, wood, sceneGraph);
 
-            //Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
-            //Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
+			//Tpotnode1 = new Node("Tpot", Cameranode, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			//Floornode1 = new Node("Floor", Tpotnode1, floormatrix, floormesh, wood, sceneGraph);
 
-            //Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
-            //Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			//Floornode2 = new Node("Floor", Floornode1, floormatrix, floormesh, wood, sceneGraph);
+			//Tpotnode2 = new Node("Tpot", Floornode2, Tpotmatrix, Tpotmesh, wood, sceneGraph);
+			showTree(sceneGraph.Root, "");
+        }
+
+		void showTree(Node root, string pref)
+        {
+			System.Console.WriteLine(pref + root.ID);
+			foreach(Node child in root.Children)
+            {
+				showTree(child, pref += '\t');
+            }
         }
 	}
 }
