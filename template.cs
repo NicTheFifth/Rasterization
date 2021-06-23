@@ -36,7 +36,7 @@ namespace Template
 			GL.Enable( EnableCap.Texture2D );
 			GL.Disable( EnableCap.DepthTest );
 			GL.Hint( HintTarget.PerspectiveCorrectionHint, HintMode.Nicest );
-			ClientSize = new Size( 512, 512 );
+			ClientSize = new Size( 1920, 1080 );
 			app = new MyApplication();
 			app.screen = new Surface( Width, Height );
 			Sprite.target = app.screen;
@@ -52,6 +52,8 @@ namespace Template
 		protected override void OnResize( EventArgs e )
 		{
 			// called upon window resize. Note: does not change the size of the pixel buffer.
+			this.Width = Width;
+			this.Height = Height;
 			GL.Viewport( 0, 0, Width, Height );
 			GL.MatrixMode( MatrixMode.Projection );
 			GL.LoadIdentity();

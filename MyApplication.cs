@@ -38,7 +38,7 @@ namespace Template
 		public void Init()
 		{
 			float angle = PI / 3;
-			Tcamera =  Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle)*Matrix4.CreateTranslation(new Vector3(-20, 312, 262));
+			Tcamera =  Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle)*Matrix4.CreateTranslation(new Vector3(-4, 62, 52));
 
 			Tview = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
             System.Console.WriteLine(Tcamera);
@@ -165,12 +165,12 @@ namespace Template
 			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null);
 			sceneGraph.Root = Cameranode;
 			
-			Matrix4 floormatrix = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 floormatrix = Matrix4.CreateScale(4f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0)*Matrix4.CreateTranslation(0,8f,0);
 			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone);
 
 
 			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			potbig = new Node("Big Teapot", Floornode, bigtpotmatrix, Tpotmesh, wood);
+			potbig = new Node("Big Teapot", Cameranode, bigtpotmatrix, Tpotmesh, wood);
 
 			Matrix4 mediumtpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potmedium = new Node("Medium Teapot", potbig, mediumtpotmatrix, Tpotmesh, wood);
