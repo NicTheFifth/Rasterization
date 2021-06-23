@@ -100,6 +100,7 @@ namespace Template
 			}
 			
 		}
+
 		void Inp()
         {
 			if (Keyboard[Key.Up])
@@ -149,6 +150,7 @@ namespace Template
 				sceneGraph.unpackChildren(sceneGraph.Root, Tcamera.Inverted() * Tview, true);
 			}
 		}
+
 		// tick for OpenGL rendering code
 		public void RenderGL()
 		{
