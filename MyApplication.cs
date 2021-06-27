@@ -121,12 +121,12 @@ namespace Template
 			if(Keyboard[Key.L])
             {
 				lightnode.position = Vector3.Add(lightnode.position,new Vector3(1,1,1));
-				Console.WriteLine(lightnode.position);
+
             }
 			if(Keyboard[Key.M])
             {
 				lightnode.position = Vector3.Add(lightnode.position,new Vector3(-1,-1,-1));
-				Console.WriteLine(lightnode.position);
+
             }
 
 		}
@@ -240,11 +240,11 @@ namespace Template
 
 			isneg = false;
 			isnegwipwap = false;
-			showTree(sceneGraph.Root, "");
 
 			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
 			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10));
 			
+			showTree(sceneGraph.Root, "");
         }
 
 		void showTree(Node root, string pref)
