@@ -56,7 +56,7 @@ namespace Template
 
         private void unpackaslight(Light light, Matrix4 T)
         {
-            light.position = T * new Vector4(0, 1, 1, 1);
+            light.position = T * new Vector4(1, 1, 1, 1);
         }
     }
 }

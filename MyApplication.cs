@@ -234,7 +234,7 @@ namespace Template
 			Matrix4 wip1matrix = Matrix4.CreateScale(1)* Matrix4.CreateTranslation(0,2.5f,-6);
 			Matrix4 wip2matrix =  Matrix4.CreateScale(1)*Matrix4.CreateTranslation(0,2.5f,6);
 		
-			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 lightmatrix = Matrix4.CreateScale(1f)*Matrix4.CreateTranslation(0,5,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
 			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
 			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
