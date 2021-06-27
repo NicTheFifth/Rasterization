@@ -20,45 +20,33 @@ namespace Template
 
         public void render()
         {
-            unpackChildren(Root, app.Tcamera.Inverted() * app.Tview);
+            unpackChildren(Root, app.Tworld * app.Tcamera.Inverted() * app.Tview);
 
         }
-        public void unpackChildren(Node node, Matrix4 transformation,bool debug = false)
+        public void unpackChildren(Node node, Matrix4 transformation, bool debug = false)
         {
             Matrix4 T = node.TransformMatrix * transformation;
             if (node.Parent != null && node.GetType() != typeof(Light))
-                node.NodeMesh.Render(app.shader, T, node.NodeTexture);
+                node.NodeMesh.Render(app.shader, T,app.Tworld, node.NodeTexture);
             else
                 T = transformation;
-            
-          
-            if( debug == true)
+
+
+
+            foreach (Node child in node.Children)
             {
-                Console.WriteLine(node.ID);
-            }
-            
-            
-                foreach (Node child in node.Children)
+
+                if (child.Children != null)
                 {
 
-                    if (child.Children != null)
-                    {
-                        if (debug == true)
-                            unpackChildren(child,T, true);
-                        else
-                            unpackChildren(child,T);
-                    }
-
-                    if (debug == true)
-                    {
-                        Console.WriteLine("wtf");
-                        Console.WriteLine(child.ID);
-                        Console.WriteLine(child.TransformMatrix);
-                    }
-                    
+                    unpackChildren(child, T);
                 }
-                
-            
+
+
+
+            }
+
+
 
         }
     }

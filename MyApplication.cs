@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System;
 using OpenTK;
 using OpenTK.Input;
+using OpenTK.Graphics.OpenGL;
 namespace Template
 {
 	public class MyApplication
@@ -14,7 +16,7 @@ namespace Template
 		public Surface screen;                  // background surface for printing etc.
 		Mesh Tpotmesh, floormesh;                       // a mesh to draw using OpenGL
 		const float PI = 3.1415926535f;         // PI
-		float a = 0;                            // teapot rotation angle
+		float a,b = 0;                            // teapot rotation angle
 		Stopwatch timer;                        // timer for measuring frame duration
 		public Shader shader;                          // shader to use for rendering
 		Shader postproc;                        // shader to use for post processing
@@ -24,8 +26,8 @@ namespace Template
 		bool useRenderTarget = true;
 		KeyboardState keyboardstate;
 		// initialize
-		private Node Cameranode, Floornode,potbig, potmedium, potsmall, light;
-		
+		private Node Cameranode, Floornode,potbig, potmedium, potsmall, lightnode,wipwap,wip1,wip2;
+		public Matrix4 Tworld;
 
 		
 		
@@ -34,7 +36,7 @@ namespace Template
 
 		public Matrix4 Tcamera;
 		public Matrix4 Tview;
-		public bool isneg;
+		public bool isneg, isnegwipwap;
 		public void Init()
 		{
 			float angle = PI / 3;
@@ -106,12 +108,16 @@ namespace Template
             {
                 Tcamera = Matrix4.CreateRotationY(-0.01f) * Tcamera;
             }
-			if (Keyboard[Key.H])
+			if (Keyboard[Key.Q])
 			{
-				//sceneGraph.unpackChildren(sceneGraph.Root, Tcamera.Inverted() * Tview, true);
-				System.Console.WriteLine("tcamera");
-				System.Console.WriteLine(Tcamera);
+				Tcamera = Matrix4.CreateRotationZ(0.02f) * Tcamera;
 			}
+			if (Keyboard[Key.E])
+			{
+				Tcamera = Matrix4.CreateRotationZ(-0.02f) * Tcamera;
+			}
+
+
 		}
 
 		public void RenderGL()
@@ -123,7 +129,9 @@ namespace Template
 			timer.Start();
 			
 			a = 0.001f  ;
-			
+			b+=0.001f*frameDuration;
+			if (b > 2 * PI) b -= 2 * PI;
+			Tworld =  Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), b);
 			potbig.TransformMatrix *= Matrix4.CreateRotationY( -20*a);
 			potsmall.TransformMatrix *= Matrix4.CreateRotationY(a);
 			potmedium.TransformMatrix *= Matrix4.CreateRotationY(a * 10);
@@ -139,22 +147,49 @@ namespace Template
 			}
 			if (isneg)
 			{
-				float b = -20 * ((float)System.Math.Sin(a * System.Math.PI));
+				float c = -20 * ((float)System.Math.Sin(a * System.Math.PI));
 				
-				potbig.TransformMatrix *= Matrix4.CreateTranslation( b,0, b);
-				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-b, 0, -b);
+				potbig.TransformMatrix *= Matrix4.CreateTranslation( c,0, c);
+				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-c, 0, -c);
+				//wipwap.transformMatrix*= Matrix4.CreateRotationX(a);
 			}
 			else
 			{
-				float b = 20 * ((float)System.Math.Sin(a * System.Math.PI));
-				potbig.TransformMatrix *= Matrix4.CreateTranslation(b ,0,b);
-				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-b, 0, -b);
+
+				float c= 20 * ((float)System.Math.Sin(a * System.Math.PI));
+				potbig.TransformMatrix *= Matrix4.CreateTranslation(c ,0,c);
+				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-c, 0, -c);
+				//wipwap.transformMatrix*= Matrix4.CreateRotationX(-a);
 			}
-			
+			wipper();
 			sceneGraph.render();
 
         }
 
+		void wipper()
+        {
+			if(wipwap.transformMatrix.ExtractRotation().X>0.25f)
+            {
+				
+				isnegwipwap= true;
+            }
+			else if(wipwap.transformMatrix.ExtractRotation().X<-0.25f)
+            {
+				
+					isnegwipwap = false;
+            }
+            if (isnegwipwap) { 
+				wipwap.transformMatrix *= Matrix4.CreateRotationX(-0.01f);
+				wip2.transformMatrix*=  Matrix4.CreateTranslation(0,0.1f,0.05f);
+				wip1.transformMatrix*= Matrix4.CreateTranslation(0,-0.1f,0.05f);	
+			}
+            else
+            {
+				wipwap.transformMatrix *= Matrix4.CreateRotationX(0.01f);
+				wip2.transformMatrix*=  Matrix4.CreateTranslation(0,-0.1f,-0.05f);
+				wip1.transformMatrix*= Matrix4.CreateTranslation(0,0.1f,-0.05f);
+            }
+        }
 		void initNodeSystem()
 		{ 
 			Tpotmesh = new Mesh("../../assets/teapot.obj");
@@ -162,27 +197,43 @@ namespace Template
 			
 			sceneGraph = new SceneGraph(this);
 
-			Cameranode = new Node("Camera", null, Tcamera*Tview, null, null);
+			Cameranode = new Node("Camera", null, Tworld*Tcamera*Tview, null, null);
 			sceneGraph.Root = Cameranode;
 			
 			Matrix4 floormatrix = Matrix4.CreateScale(4f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0)*Matrix4.CreateTranslation(0,8f,0);
 			
-			Matrix4 lightmatrix = Matrix4.CreateScale(20f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
-			light = new Light("Light", Cameranode, lightmatrix, new Vector3(1, 1, 1));
 			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone);
 
-			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f)*Matrix4.CreateTranslation(0,0,0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f);
 			potbig = new Node("Big Teapot", Cameranode, bigtpotmatrix, Tpotmesh, wood);
 
-			Matrix4 mediumtpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 mediumtpotmatrix = Matrix4.CreateScale(0.5f) * Matrix4.CreateTranslation(20, 0, 0) ;
 			potmedium = new Node("Medium Teapot", potbig, mediumtpotmatrix, Tpotmesh, wood);
 			
 			
 			Matrix4 smalltpotmatrix = Matrix4.CreateScale(0.5f) *Matrix4.CreateTranslation(10f,0,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potsmall = new Node("Small Teapot", potmedium, smalltpotmatrix, Tpotmesh, wood);
+			
+			
+			Matrix4 wipwapmatrix = Matrix4.CreateScale(1f)*Matrix4.CreateTranslation(0,10,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 wip1matrix = Matrix4.CreateScale(1)* Matrix4.CreateTranslation(0,2.5f,-6);
+			Matrix4 wip2matrix =  Matrix4.CreateScale(1)*Matrix4.CreateTranslation(0,2.5f,6);
+		
+			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
+			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
+			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
 
 			isneg = false;
+			isnegwipwap = false;
 			showTree(sceneGraph.Root, "");
+
+			Matrix4 lightmatrix = wipwapmatrix;
+			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10));
+			
+            Matrix3 lightMat = new Matrix3(lightnode.position, lightnode.colour,Vector3.Zero);
+            int lightMatID = GL.GetUniformLocation(shader.programID, "light");
+            GL.UseProgram(shader.programID);
+            GL.UniformMatrix3(lightMatID, true, ref lightMat);
         }
 
 		void showTree(Node root, string pref)
@@ -192,6 +243,10 @@ namespace Template
             {
 				showTree(child, pref + '\t');
             }
+        }
+		public Matrix4 TWorld
+        {
+            get { return Tworld; }
         }
 	}
 }

@@ -12,7 +12,7 @@ namespace Template
 		public int attribute_vnrm;
 		public int attribute_vuvs;
 		public int uniform_mview;
-
+		public int uniform_tw;
 		// constructor
 		public Shader( String vertexShader, String fragmentShader )
 		{
@@ -28,6 +28,7 @@ namespace Template
 			attribute_vnrm = GL.GetAttribLocation( programID, "vNormal" );
 			attribute_vuvs = GL.GetAttribLocation( programID, "vUV" );
 			uniform_mview = GL.GetUniformLocation( programID, "transform" );
+			uniform_tw = GL.GetUniformLocation(programID, "toworld");
 		}
 
 		// loading shaders

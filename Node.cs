@@ -21,7 +21,7 @@ namespace Template
 
         internal Mesh nodeMesh;
         internal Texture nodeTexture;
-
+        public Vector3 colour,position;
         internal Matrix4 transformMatrix;
         public Node()
         {}
@@ -35,7 +35,7 @@ namespace Template
 
                 this.parent = parent;
 
-                Parent.Children.Add(this);
+                parent.Children.Add(this);
             }
 
             this.children = new List<Node>();
