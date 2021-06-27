@@ -95,6 +95,7 @@ namespace Template
             if (Keyboard[Key.W])
             {
                 Tcamera = Matrix4.CreateRotationX(0.01f) * Tcamera;
+				
             }
             if (Keyboard[Key.S])
             {
@@ -116,7 +117,16 @@ namespace Template
 			{
 				Tcamera = Matrix4.CreateRotationZ(-0.02f) * Tcamera;
 			}
-
+			if(Keyboard[Key.L])
+            {
+				lightnode.position = Vector3.Add(lightnode.position,new Vector3(1,1,1));
+				Console.WriteLine(lightnode.position);
+            }
+			if(Keyboard[Key.M])
+            {
+				lightnode.position = Vector3.Add(lightnode.position,new Vector3(-1,-1,-1));
+				Console.WriteLine(lightnode.position);
+            }
 
 		}
 
@@ -131,7 +141,7 @@ namespace Template
 			a = 0.001f  ;
 			b+=0.001f*frameDuration;
 			if (b > 2 * PI) b -= 2 * PI;
-			Tworld =  Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), b);
+			Tworld =  Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			potbig.TransformMatrix *= Matrix4.CreateRotationY( -20*a);
 			potsmall.TransformMatrix *= Matrix4.CreateRotationY(a);
 			potmedium.TransformMatrix *= Matrix4.CreateRotationY(a * 10);
@@ -162,6 +172,10 @@ namespace Template
 				//wipwap.transformMatrix*= Matrix4.CreateRotationX(-a);
 			}
 			wipper();
+            Matrix3 lightMat = new Matrix3(lightnode.position, lightnode.colour,Vector3.Zero);
+            int lightMatID = GL.GetUniformLocation(shader.programID, "light");
+            GL.UseProgram(shader.programID);
+            GL.UniformMatrix3(lightMatID, true, ref lightMat);
 			sceneGraph.render();
 
         }
@@ -227,13 +241,9 @@ namespace Template
 			isnegwipwap = false;
 			showTree(sceneGraph.Root, "");
 
-			Matrix4 lightmatrix = wipwapmatrix;
+			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
 			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10));
 			
-            Matrix3 lightMat = new Matrix3(lightnode.position, lightnode.colour,Vector3.Zero);
-            int lightMatID = GL.GetUniformLocation(shader.programID, "light");
-            GL.UseProgram(shader.programID);
-            GL.UniformMatrix3(lightMatID, true, ref lightMat);
         }
 
 		void showTree(Node root, string pref)

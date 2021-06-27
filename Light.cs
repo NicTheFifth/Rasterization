@@ -6,6 +6,7 @@ namespace Template
     public class Light : Node
     {
         //RGB light
+
         public Light(string id, Node parent,Matrix4 transformMatrix,  Vector3 colour) : base()
         {
             this.id = id;
