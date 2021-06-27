@@ -6,11 +6,14 @@ namespace Template
     public class Light : Node
     {
         //RGB light
-        public Vector3 colour, position;
+        public Vector3 colour;
+        public Vector4 position;
         public Light(string id, Node parent,Matrix4 transformMatrix,  Vector3 colour) : base()
         {
+            this.transformMatrix = transformMatrix;
             this.id = id;
-            this.position = transformMatrix.ExtractTranslation();
+            
+            System.Console.WriteLine(position);
             this.colour = colour;
             this.parent = null;
             children = new List<Node>();
@@ -25,7 +28,8 @@ namespace Template
         }
         public Vector3 Colour
         { get { return colour; } }
-        public Vector3 Position
-        { get { return colour; } }
+        public Vector4 Position
+        { get { return position; }
+            set { position = value; } }
     }
 }

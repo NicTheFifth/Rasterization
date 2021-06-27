@@ -18,7 +18,7 @@ namespace Template
 
         //ID of node
         internal string id;
-
+        public Vector4 position;
         internal Mesh nodeMesh;
         internal Texture nodeTexture;
         internal Matrix4 transformMatrix;

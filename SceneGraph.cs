@@ -25,7 +25,10 @@ namespace Template
         }
         public void unpackChildren(Node node, Matrix4 transformation, bool debug = false)
         {
-            Matrix4 T = node.TransformMatrix * transformation;
+            Matrix4 T;
+            
+            T = node.TransformMatrix * transformation;
+
             if (node.Parent != null && node.GetType() != typeof(Light))
                 node.NodeMesh.Render(app.shader, T,app.Tworld, node.NodeTexture);
             else
@@ -35,7 +38,8 @@ namespace Template
 
             foreach (Node child in node.Children)
             {
-
+                if (child.GetType() == typeof(Light))
+                    unpackaslight((Light)child, T);
                 if (child.Children != null)
                 {
 
@@ -48,6 +52,11 @@ namespace Template
 
 
 
+        }
+
+        private void unpackaslight(Light light, Matrix4 T)
+        {
+            light.position = T * new Vector4(0, 1, 1, 1);
         }
     }
 }

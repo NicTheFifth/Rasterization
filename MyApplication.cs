@@ -120,12 +120,12 @@ namespace Template
 			}
 			if(Keyboard[Key.L])
             {
-				lightnode.position = Vector3.Add(lightnode.position,new Vector3(1,1,1));
-
+				//lightnode.position = Vector3.Add(lightnode.position.Xyz,new Vector3(1,1,1));
+				Console.WriteLine(lightnode.position);
             }
 			if(Keyboard[Key.M])
             {
-				lightnode.position = Vector3.Add(lightnode.position,new Vector3(-1,-1,-1));
+				//lightnode.position = Vector3.Add(lightnode.position,new Vector3(-1,-1,-1));
 
             }
 
@@ -173,7 +173,7 @@ namespace Template
 				//wipwap.transformMatrix*= Matrix4.CreateRotationX(-a);
 			}
 			wipper();
-            Matrix3 lightMat = new Matrix3(lightnode.position, lightnode.colour,Vector3.Zero);
+            Matrix3 lightMat = new Matrix3(lightnode.position.Xyz, lightnode.colour,Vector3.Zero);
             int lightMatID = GL.GetUniformLocation(shader.programID, "light");
             GL.UseProgram(shader.programID);
             GL.UniformMatrix3(lightMatID, true, ref lightMat);
@@ -234,15 +234,15 @@ namespace Template
 			Matrix4 wip1matrix = Matrix4.CreateScale(1)* Matrix4.CreateTranslation(0,2.5f,-6);
 			Matrix4 wip2matrix =  Matrix4.CreateScale(1)*Matrix4.CreateTranslation(0,2.5f,6);
 		
+			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
 			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
 			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
+			lightnode = new Light("Light", potbig, smalltpotmatrix, new Vector3(10, 10, 10));
 
 			isneg = false;
 			isnegwipwap = false;
 
-			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
-			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10));
 			
 			showTree(sceneGraph.Root, "");
         }
