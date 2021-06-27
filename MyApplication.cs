@@ -242,7 +242,7 @@ namespace Template
 			isnegwipwap = false;
 
 			Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
-			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10));
+			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10), new Vector3(100,100,100));
 			
 			showTree(sceneGraph.Root, "");
         }

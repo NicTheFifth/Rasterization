@@ -6,12 +6,13 @@ namespace Template
     public class Light : Node
     {
         //RGB light
-        public Vector3 colour, position;
-        public Light(string id, Node parent,Matrix4 transformMatrix,  Vector3 colour) : base()
+        public Vector3 colour, position, specularcolour;
+        public Light(string id, Node parent,Matrix4 transformMatrix,  Vector3 colour, Vector3 specularcolour) : base()
         {
             this.id = id;
             this.position = transformMatrix.ExtractTranslation();
             this.colour = colour;
+            this.specularcolour = specularcolour;
             this.parent = null;
             children = new List<Node>();
             nodeMesh = null;
