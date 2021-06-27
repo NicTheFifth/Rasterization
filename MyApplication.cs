@@ -26,7 +26,8 @@ namespace Template
 		bool useRenderTarget = true;
 		KeyboardState keyboardstate;
 		// initialize
-		private Node Cameranode, Floornode,potbig, potmedium, potsmall, lightnode,wipwap,wip1,wip2;
+		private Node Cameranode, Floornode,potbig, potmedium, potsmall,wipwap,wip1,wip2;
+		private Light lightnode;
 		public Matrix4 Tworld;
 
 		
