@@ -21,7 +21,6 @@ namespace Template
 
         internal Mesh nodeMesh;
         internal Texture nodeTexture;
-        public Vector3 colour,position;
         internal Matrix4 transformMatrix;
         public Node()
         {}

@@ -1,16 +1,18 @@
 ﻿#version 330
  
 // shader input
-in vec2 uv;			// interpolated texture coordinates
-in vec4 normal;			// interpolated normal
+in vec2 uv;            // interpolated texture coordinates
+in vec4 normal;            // interpolated normal
 in vec4 worldPos;
 uniform vec3 ambientColour; // ambient colour 
-uniform sampler2D pixels;	// texture sampler
+uniform sampler2D pixels;    // texture sampler
 uniform mat3 light;
+
 // shader output
 out vec4 outputColor;
 vec3 lightpos;
 vec3 lightcolour;
+
 // fragment shader
 void main()
 {
