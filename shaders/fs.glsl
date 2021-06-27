@@ -30,7 +30,7 @@ void main()
     vec3 h = normalize(normal.xyz + l);
     float spec = dot(l, h);
     float attenuation =1.0f / (dist*dist);
-    //outputColor = vec4(materialColor, 1);
-    outputColor = vec4( materialColor * max( 0.0f , dif ) * attenuation * lightcolour, 1 );
+    outputColor = vec4(vec3(1,1,1), 1);
+    outputColor += vec4( materialColor * max( 0.0f , dif ) * attenuation * lightcolour, 1 );
     outputColor += vec4(vec3(1,1,1) * pow( max( 0.0f , spec), 10) * lightspec, 1);
 }
