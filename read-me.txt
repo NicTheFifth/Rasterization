@@ -18,13 +18,18 @@ W	- Rotate downwards
 A	- Rotate to the left
 S	- Rotate upwards
 D	- Rotate to the right
+Q	- Tilt left
+E	- Tilt right
 Shift	- Move up
 Space	- Move down
 Up	- Move forwards
 Down	- Move downwards
 Left	- Move to the left
 Right	- Move to the right
-L	- Get the camera position in the world
+Num8	- Move light forwards
+Num4	- Move light left
+Num5	- Move light back
+Num6	- Move light right
 
 
 

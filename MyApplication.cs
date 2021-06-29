@@ -120,10 +120,6 @@ namespace Template
 			{
 				Tcamera = Matrix4.CreateRotationZ(-0.02f) * Tcamera;
 			}
-			if(Keyboard[Key.L])
-            {
-				Console.WriteLine(Tcamera.ExtractTranslation());
-            }
 			if(Keyboard[Key.Number8])
             {
 				currentlightpos += new Vector4(0,0,1f,0);
