@@ -18,7 +18,9 @@ void main()
     // transform vertex using supplied matrix
     gl_Position = transform * vec4(vPosition, 1.0);
     worldPos = toworld * vec4(vPosition,1.0f);
+    //normal = toworld * vec4( vNormal, 0.0f );
+    
     // forward normal and uv coordinate; will be interpolated over triangle
-    normal = toworld * vec4( vNormal, 0.0f );
+    normal = transform * vec4( vNormal, 0.0f );
     uv = vUV;
 }
