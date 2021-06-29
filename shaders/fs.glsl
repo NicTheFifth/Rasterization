@@ -16,14 +16,21 @@ vec3 lightcolour;
 // fragment shader
 void main()
 {
+    vec3 lightpos =vec3(1,0,0) * light;
+    vec3 lightcolour =  vec3(0,1,0) * light;
+    vec3 lightspec = vec3(0,0,1) * light;
 
-    vec3 lightpos =vec3(1,0,0)*  light;
-    vec3 lightcolour =  vec3(0,1,0)*light;
-   
-    vec3 L = lightpos - worldPos.xyz;
-    float dist = L.length();
-    L = normalize( L );
     vec3 materialColor = texture( pixels, uv ).xyz;
+
+    vec3 l = lightpos - worldPos.xyz;
+    float dist = l.length();
+    vec3 lnorm = normalize( l );
+
+    float dif = dot(normal.xyz, lnorm);
+    vec3 h = normalize(normal.xyz + l);
+    float spec = dot(l, h);
     float attenuation =1.0f / (dist*dist);
-    outputColor = vec4( materialColor * max( 0.0f, dot( L, normal.xyz ) ) * attenuation * lightcolour, 1 );
+    //outputColor = vec4(materialColor, 1);
+    outputColor = vec4( materialColor * max( 0.0f , dif ) * attenuation * lightcolour, 1 );
+    outputColor += vec4(vec3(1,1,1) * pow( max( 0.0f , spec), 10) * lightspec, 1);
 }

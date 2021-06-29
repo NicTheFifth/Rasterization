@@ -238,11 +238,13 @@ namespace Template
 			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
 			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
 			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
-			lightnode = new Light("Light", potbig, smalltpotmatrix, new Vector3(10, 10, 10));
+			//lightnode = new Light("Light", potbig, smalltpotmatrix, new Vector3(10, 10, 10));
 
 			isneg = false;
 			isnegwipwap = false;
 
+			//Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
+			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10), new Vector3(100,100,100));
 			
 			showTree(sceneGraph.Root, "");
         }
