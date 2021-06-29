@@ -1,0 +1,23 @@
+Students:
+	Nic van der Stegen, 6492703
+	Teun de Bilde, 6574556
+
+The bonuses we implemented are:
+- Lights in the scene graph
+	This is simply that our lights are an extention of the node class.
+- Multiple lights that can be modified at run time
+	Edit of the shading model and added lights.
+
+We used the slides as our source, other than that we haven't used any sources. 
+
+
+
+
+
+
+
+
+
+
+
+
