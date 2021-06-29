@@ -120,8 +120,9 @@ namespace Template
 			{
 				Tcamera = Matrix4.CreateRotationZ(-0.02f) * Tcamera;
 			}
+				currentlightpos += new Vector4(-1f, 0, 0, 0);
 
-
+		}
 		}
 
 		public void RenderGL()
@@ -155,7 +156,6 @@ namespace Template
 				
 				potbig.TransformMatrix *= Matrix4.CreateTranslation( c,0, c);
 				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-c, 0, -c);
-				//wipwap.transformMatrix*= Matrix4.CreateRotationX(a);
 			}
 			else
 			{
@@ -163,7 +163,6 @@ namespace Template
 				float c= 20 * ((float)System.Math.Sin(a * System.Math.PI));
 				potbig.TransformMatrix *= Matrix4.CreateTranslation(c ,0,c);
 				potmedium.TransformMatrix *= Matrix4.CreateTranslation(-c, 0, -c);
-				//wipwap.transformMatrix*= Matrix4.CreateRotationX(-a);
 			}
 			wipper();
 			Matrix3 lightMat = new Matrix3(lightnode.position.Xyz, lightnode.colour, Vector3.Zero);
@@ -231,7 +230,6 @@ namespace Template
 			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
 			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
 			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
-			//lightnode = new Light("Light", potbig, smalltpotmatrix, new Vector3(10, 10, 10));
 
 			isneg = false;
 			isnegwipwap = false;

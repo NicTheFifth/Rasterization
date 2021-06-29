@@ -36,8 +36,6 @@ namespace Template
             else
                 T = transformation;
 
-
-
             foreach (Node child in node.Children)
             {
                 if (child.GetType() == typeof(Light))
@@ -47,21 +45,12 @@ namespace Template
 
                     unpackChildren(child, T);
                 }
-
-
-
             }
-
-
-
         }
 
         public void unpackaslight(Light light, Matrix4 T)
         {
-
-            light.position = T * new Vector4(1, 1, 1, 0);
-            
-
+            light.position = T *app.currentlightpos;
         }
     }
 }
