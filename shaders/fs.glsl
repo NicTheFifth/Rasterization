@@ -22,17 +22,17 @@ void main()
 
     vec3 rv = vec3(0,0,0);
     vec3 l = lightpos - worldPos.xyz;
-    float dist = l.length();
-    vec3 lnorm = normalize( l );
+    float dist = length(l);
+    vec3 lnorm = l/dist;
     
     float attenuation =1.0f / (dist*dist);
 
     float dif = dot(normal.xyz, lnorm);
-    if(dot(l,normal.xyz)>0)
-        rv = -l + 2*dot( l,normal.xyz ) * normal.xyz;
-    float spec = dot(l, rv);
+    if(dot(lnorm,normal.xyz)>0)
+    rv = -lnorm + 2*dot( lnorm,normal.xyz ) * normal.xyz;
 
-    //outputColor = vec4(vec3(0.05f,0.05f,0.05f), 1); //background light
-    outputColor = vec4( materialColor * max( 0.0f ,dot( l, normal.xyz) ) * attenuation * lightcolour, 1); //lambertian
-    outputColor += vec4(vec3(1,1,1) * pow( max( 0.0f , spec), 1) * lightspec, 1); //blin phong shading
+    float spec = dot(lnorm, rv);
+
+    outputColor = 0.1f*texture( pixels, uv); //background light
+    outputColor += 0.9f*vec4( materialColor * max( 0.0f ,dot( lnorm, normal.xyz) ) * attenuation * lightcolour+vec3(1,1,1) * pow( max( 0.0f , spec), 1.0f) *attenuation* lightspec, 1.0f); //blin phong shading
 }
