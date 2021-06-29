@@ -120,31 +120,7 @@ namespace Template
 			{
 				Tcamera = Matrix4.CreateRotationZ(-0.02f) * Tcamera;
 			}
-			if(Keyboard[Key.L])
-            {
-				//lightnode.position = Vector3.Add(lightnode.position.Xyz,new Vector3(1,1,1));
-				Console.WriteLine(Tcamera.ExtractTranslation());
-            }
-			if(Keyboard[Key.Number8])
-            {
-				currentlightpos += new Vector4(0,0,1f,0);
 
-            }
-			if (Keyboard[Key.Number4])
-			{
-				currentlightpos += new Vector4(-1f, 0, 0, 0);
-
-			}
-			if (Keyboard[Key.Number6])
-			{
-				currentlightpos += new Vector4(1f, 0, 0, 0);
-
-			}
-			if (Keyboard[Key.Number5])
-			{
-				currentlightpos += new Vector4(0, 0, -1f, 0);
-
-			}
 
 		}
 
@@ -265,7 +241,7 @@ namespace Template
 			lightnode.position = new Vector4(0,0, 0, 0);
 
 			showTree(sceneGraph.Root, "");
-			currentlightpos = new Vector4(1, 1, 1, 0);
+			
         }
 
 		void showTree(Node root, string pref)
