@@ -5,8 +5,7 @@ Students:
 The bonuses we implemented are:
 - Lights in the scene graph
 	This is simply that our lights are an extention of the node class.
-- Multiple lights that can be modified at run time
-	Edit of the shading model and added lights.
+- Lights move during runtime
 
 We used the slides as our source, other than that we haven't used any sources. 
 
