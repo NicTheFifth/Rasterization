@@ -24,6 +24,7 @@ Up	- Move forwards
 Down	- Move downwards
 Left	- Move to the left
 Right	- Move to the right
+L	- Get the camera position in the world
 
 
 
