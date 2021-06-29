@@ -26,10 +26,6 @@ Up	- Move forwards
 Down	- Move downwards
 Left	- Move to the left
 Right	- Move to the right
-Num8	- Move light forwards
-Num4	- Move light left
-Num5	- Move light back
-Num6	- Move light right
 
 
 
