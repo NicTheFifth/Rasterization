@@ -9,6 +9,22 @@ The bonuses we implemented are:
 
 We used the slides as our source, other than that we haven't used any sources. 
 
+DOCUMENTATION
+=============
+We implemented a scenegraph, which is based on a node tree. Said node tree contains two types of nodes, the 'normal' model nodes and the light nodes. These nodes are shown on launch in the tree format, like a file explorer.
+
+Furthermore we have a few controls, these are all from the viewpoint of the camera.
+W	- Rotate downwards
+A	- Rotate to the left
+S	- Rotate upwards
+D	- Rotate to the right
+Shift	- Move up
+Space	- Move down
+Up	- Move forwards
+Down	- Move downwards
+Left	- Move to the left
+Right	- Move to the right
+
 
 
 
