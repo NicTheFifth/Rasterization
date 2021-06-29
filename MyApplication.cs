@@ -246,8 +246,8 @@ namespace Template
 			isnegwipwap = false;
 			
 			Matrix4 lightmatrix = Matrix4.Identity;
-			lightnode = new Light("Light", potbig, bigtpotmatrix, new Vector3(5, 5, 5), new Vector3(0,0,0));
-			lightnode.position = new Vector4(1,5, 5, 0);
+			lightnode = new Light("Light", wip1, bigtpotmatrix, new Vector3(5f, 5f, 5f), new Vector3(1,1,1));
+			lightnode.position = new Vector4(1,1, 0, 0);
 
 			showTree(sceneGraph.Root, "");
 			
