@@ -1,0 +1,11 @@
+C:\Users\teund\source\repos\Rasterization\bin\Debug\INFOGR2019Tmpl8.exe.config
+C:\Users\teund\source\repos\Rasterization\bin\Debug\INFOGR2019Tmpl8.exe
+C:\Users\teund\source\repos\Rasterization\bin\Debug\INFOGR2019Tmpl8.pdb
+C:\Users\teund\source\repos\Rasterization\bin\Debug\OpenTK.dll
+C:\Users\teund\source\repos\Rasterization\bin\Debug\OpenTK.pdb
+C:\Users\teund\source\repos\Rasterization\bin\Debug\OpenTK.xml
+C:\Users\teund\source\repos\Rasterization\obj\Debug\Template.csproj.AssemblyReference.cache
+C:\Users\teund\source\repos\Rasterization\obj\Debug\Template.csproj.CoreCompileInputs.cache
+C:\Users\teund\source\repos\Rasterization\obj\Debug\Template.csproj.CopyComplete
+C:\Users\teund\source\repos\Rasterization\obj\Debug\INFOGR2019Tmpl8.exe
+C:\Users\teund\source\repos\Rasterization\obj\Debug\INFOGR2019Tmpl8.pdb

@@ -29,7 +29,7 @@ namespace Template
         private Node Cameranode, Floornode, potbig, potmedium, potsmall, wipwap, wip1, wip2;
         public Light lightnode;
         public Matrix4 Tworld;
-        public Vector4 currentlightpos;
+   
 
 
 
@@ -237,7 +237,7 @@ namespace Template
 
             Matrix4 lightmatrix = Matrix4.Identity;
             lightnode = new Light("Light", Floornode, bigtpotmatrix, new Vector3(5f, 5f, 5f), new Vector3(1, 1, 1));
-            lightnode.position = new Vector4(0, 0, 0, 0);
+            lightnode.position = new Vector4(1, 1, 1, 0);
 
             showTree(sceneGraph.Root, "");
 
