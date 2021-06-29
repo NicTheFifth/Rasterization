@@ -40,8 +40,8 @@ namespace Template
 		public bool isneg, isnegwipwap;
 		public void Init()
 		{
-			float angle = PI / 3;
-			Tcamera =  Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), angle)*Matrix4.CreateTranslation(new Vector3(-4, 62, 52));
+			
+			Tcamera =  Matrix4.CreateFromAxisAngle(new Vector3(-1,0, 0), 0.5f)*Matrix4.CreateTranslation(new Vector3(-4, 15, 70));
 
 			Tview = Matrix4.CreatePerspectiveFieldOfView(1.2f, 1.3f, .1f, 1000);
             System.Console.WriteLine(Tcamera);
@@ -122,11 +122,11 @@ namespace Template
 			}
 			if(Keyboard[Key.L])
             {
-				Console.WriteLine(lightnode.position);
+				Console.WriteLine(Tcamera.ExtractTranslation());
             }
 			if(Keyboard[Key.Number8])
             {
-				currentlightpos += new Vector4(0,1f,0,0);
+				currentlightpos += new Vector4(0,0,1f,0);
 
             }
 			if (Keyboard[Key.Number4])
@@ -136,12 +136,12 @@ namespace Template
 			}
 			if (Keyboard[Key.Number6])
 			{
-				currentlightpos += new Vector4(0, 1f, 0, 0);
+				currentlightpos += new Vector4(1f, 0, 0, 0);
 
 			}
-			if (Keyboard[Key.Number8])
+			if (Keyboard[Key.Number5])
 			{
-				currentlightpos += new Vector4(0, 1f, 0, 0);
+				currentlightpos += new Vector4(0, 0, -1f, 0);
 
 			}
 
