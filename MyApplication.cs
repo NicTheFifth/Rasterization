@@ -27,7 +27,7 @@ namespace Template
 		KeyboardState keyboardstate;
 		// initialize
 		private Node Cameranode, Floornode,potbig, potmedium, potsmall,wipwap,wip1,wip2;
-		private Light lightnode;
+		public Light lightnode;
 		public Matrix4 Tworld;
 
 		
@@ -61,8 +61,10 @@ namespace Template
 			initNodeSystem();
 		}
 
-		// tick for background surface
-		public void Tick()
+  
+
+        // tick for background surface
+        public void Tick()
 		{
 		}
 		void Inp()
@@ -123,9 +125,9 @@ namespace Template
 				//lightnode.position = Vector3.Add(lightnode.position.Xyz,new Vector3(1,1,1));
 				Console.WriteLine(lightnode.position);
             }
-			if(Keyboard[Key.M])
+			if(Keyboard[Key.Number8])
             {
-				//lightnode.position = Vector3.Add(lightnode.position,new Vector3(-1,-1,-1));
+				lightnode.position = Vector4.Add(lightnode.position,new Vector4(1,1,1,0));
 
             }
 
@@ -173,13 +175,13 @@ namespace Template
 				//wipwap.transformMatrix*= Matrix4.CreateRotationX(-a);
 			}
 			wipper();
-            Matrix3 lightMat = new Matrix3(lightnode.position.Xyz, lightnode.colour,Vector3.Zero);
-            int lightMatID = GL.GetUniformLocation(shader.programID, "light");
-            GL.UseProgram(shader.programID);
-            GL.UniformMatrix3(lightMatID, true, ref lightMat);
+			Matrix3 lightMat = new Matrix3(lightnode.position.Xyz, lightnode.colour, Vector3.Zero);
+			int lightMatID = GL.GetUniformLocation(shader.programID, "light");
+			GL.UseProgram(shader.programID);
+			GL.UniformMatrix3(lightMatID, true, ref lightMat);
 			sceneGraph.render();
-
-        }
+			
+		}
 
 		void wipper()
         {
@@ -217,7 +219,7 @@ namespace Template
 			
 			Matrix4 floormatrix = Matrix4.CreateScale(4f) * Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0)*Matrix4.CreateTranslation(0,8f,0);
 			
-			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, stone);
+			Floornode = new Node("Floor", Cameranode, floormatrix, floormesh, wood);
 
 			Matrix4 bigtpotmatrix = Matrix4.CreateScale(0.5f);
 			potbig = new Node("Big Teapot", Cameranode, bigtpotmatrix, Tpotmesh, wood);
@@ -230,11 +232,11 @@ namespace Template
 			potsmall = new Node("Small Teapot", potmedium, smalltpotmatrix, Tpotmesh, wood);
 			
 			
-			Matrix4 wipwapmatrix = Matrix4.CreateScale(1f)*Matrix4.CreateTranslation(0,10,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			Matrix4 wipwapmatrix = Matrix4.CreateScale(1f)*Matrix4.CreateTranslation(0,10,10)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
 			Matrix4 wip1matrix = Matrix4.CreateScale(1)* Matrix4.CreateTranslation(0,2.5f,-6);
 			Matrix4 wip2matrix =  Matrix4.CreateScale(1)*Matrix4.CreateTranslation(0,2.5f,6);
 		
-			Matrix4 lightmatrix = Matrix4.CreateScale(1f)*Matrix4.CreateTranslation(0,5,0)* Matrix4.CreateFromAxisAngle(new Vector3(0, 1, 0), 0);
+			
 			wipwap = new Node("Wipwap On Small Teapot",potsmall,wipwapmatrix,floormesh,wood);
 			wip1 = new Node("Wipper",wipwap,wip1matrix,Tpotmesh,stone);
 			wip2 = new Node("Wapper",wipwap,wip2matrix,Tpotmesh,stone);
@@ -242,11 +244,13 @@ namespace Template
 
 			isneg = false;
 			isnegwipwap = false;
-
-			//Matrix4 lightmatrix = Matrix4.CreateScale(5f)* Matrix4.CreateTranslation(1,1,1);
-			lightnode = new Light("Light", wipwap, lightmatrix, new Vector3(10, 10, 10), new Vector3(100,100,100));
 			
+			Matrix4 lightmatrix = Matrix4.Identity;
+			lightnode = new Light("Light", potbig, bigtpotmatrix, new Vector3(5, 5, 5), new Vector3(0,0,0));
+			lightnode.position = new Vector4(1,5, 5, 0);
+
 			showTree(sceneGraph.Root, "");
+			
         }
 
 		void showTree(Node root, string pref)

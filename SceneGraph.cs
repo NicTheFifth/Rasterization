@@ -1,5 +1,7 @@
 ﻿using System;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
+
 namespace Template
 {
     public class SceneGraph
@@ -54,9 +56,12 @@ namespace Template
 
         }
 
-        private void unpackaslight(Light light, Matrix4 T)
+        public void unpackaslight(Light light, Matrix4 T)
         {
-            light.position = T * new Vector4(1, 1, 1, 1);
+            
+            light.position = T *new Vector4(1,1,1,0) ;
+            
+
         }
     }
 }
